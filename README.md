@@ -1,4 +1,5 @@
 # Python projects
+Learn more about python course at VUT (here)[https://www.fit.vut.cz/study/course/244880/.cs]
 ## Project #1
 Write a function that converts camelCase to a snake_case with regex
 ```python
