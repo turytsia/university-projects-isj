@@ -17,20 +17,17 @@ def all_permutations_substrings(a_str):
 def match_permutations_substrings(string, words):
     """Generates all permutations of all substrings of the input string and
        returns a set of input words that match one of the permutations.
-
     >>> match_permutations_substrings('okna', ['a', 'z', 'v', 'o', 'k', 'ok', 'ano', 'no', 'hlava', 'oko', 'noky', 'nok', 'on', 'ona', 'ony']) == {'ona', 'a', 'ok', 'o', 'nok', 'no', 'ano', 'on', 'k'}
     True
-
     >>> match_permutations_substrings('opak', ['ok', 'pak', 'pako', 'ano', 'noha', 'oka', 'kap', 'kopa', 'kopat', 'ona', 'okap']) == {'kopa', 'kap', 'pako', 'ok', 'pak', 'okap', 'oka' }
     True
-
     """
 
 
     # permutations as a set
     perms = all_permutations_substrings(string)
 
-    return set([word for word in words for perm in perms if perm == word])
+    return set([word for word in words if word in perms])
 
 
 # max 1 point
@@ -39,13 +36,10 @@ def match_permutations_substrings(string, words):
 # limited test examples)
 def uniq_srt(it):
     """Returns the input sequence unified and sorted (according to the values)
-
     >>> uniq_srt([3, 3, 5, 3, 4, 2, 4])
     [2, 3, 4, 5]
-
     >>> uniq_srt('abrakadabra')
     ['a', 'b', 'd', 'k', 'r']
-
     """
 
     return sorted(set(list(it)))
@@ -58,16 +52,13 @@ def uniq_srt(it):
 def uniq_orig_order(it):
     """Returns the input sequence, items ordered by the order of their
        first appearance
-
     >>> uniq_orig_order([3, 3, 5, 3, 4, 2, 4])
     [3, 5, 4, 2]
-
     >>> uniq_orig_order('abrakadabra')
     ['a', 'b', 'r', 'k', 'd']
-
     """
 
-    return [key for key in {item:index for index,item in enumerate(list(it))}.keys()]
+    return list(dict.fromkeys(it).keys())
 
 
 if __name__ == "__main__":
