@@ -1,5 +1,13 @@
 # Python projects
 Learn more about python course at VUT **[here](https://www.fit.vut.cz/study/course/244880/.cs)**
+
+| Project # | Points |
+| ------ | ------ |
+| 1 | 5/5 |
+| 2 | 5/5 |
+| 3 | 5/5 |
+| 4 | 5/5 |
+
 ## Project #1
 Write a function that converts camelCase to a snake_case with regex
 ```python
@@ -15,8 +23,6 @@ followed by ', Ph.D.'
 not_both_titles('doc. Josef Tyl, Rudolf Srp, Ph.D., Pavel Vlk, doc. RNDr. Petr Berka, Ph.D., Jan Hora')
 ['doc. Josef Tyl', 'Rudolf Srp, Ph.D.', 'Pavel Vlk', 'Jan Hora']
 ```
-
-`Result: 5/5`
 
 ## Project #2
 Write a function that replaces y/i, removes spaces, returns reversed
@@ -35,8 +41,6 @@ solfege('Hymn of St. John: Ut queant laxis re sonare fibris mi ra gestorum fa mu
 solfege('Ut queant laxis re sonare fibris mi ra gestorum fa muli tuorum sol ve polluti la bii reatum Sancte Iohannes')
 'Ut, re, mi, fa, sol, la'
 ```
-
-`Result: 5/5`
 
 ## Project #3
 Write a function that returns 0 if there is the same number of even numbers and odd numbers
@@ -71,8 +75,6 @@ to_pilot_alpha('Smrz')
 ['Sierra', 'Mike', 'Romeo', 'Zulu']
 ```
 
-`Result: 5/5`
-
 ## Project #4
 Write a function that generates all permutations of all substrings of the input string
 ```python
@@ -100,6 +102,4 @@ uniq_orig_order([3, 3, 5, 3, 4, 2, 4])
 uniq_orig_order('abrakadabra')
 ['a', 'b', 'r', 'k', 'd']
 ```
-
-`Result: 5/5`
 
