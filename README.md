@@ -128,3 +128,34 @@ gen_quiz(test_qpool7, 0, 4, 2, altcodes = ['101','201'])
 Ignoring index 4 - list index out of range
 [('Question1', ['101: Answer1', '201: Answer2']), ('Question3', ['101: Answer1', '201: Answer2'])]
 ```
+
+## Project #6
+
+Do souboru, nazvaného podle konvence isj_proj6_xnovak00.py, implementujte třídu Polynomial, která bude pracovat s polynomy reprezentovanými pomocí seznamů. Například **2x^3 - 3x + 1** bude  reprezentováno jako `[1,-3,0,2]` (seznam začíná nejnižším řádem, i když se polynomy většinou zapisují opačně).
+
+Instance třídy bude možné vytvářet několika různými způsoby:
+```python
+pol1 = Polynomial([1,-3,0,2])
+pol2 = Polynomial(1,-3,0,2)
+pol3 = Polynomial(x0=1,x3=2,x1=-3)
+```
+
+Volání funkce print() vypíše polynom v obvyklém formátu:
+```python
+print(pol2)
+"2x^3 - 3x + 1"
+```
+
+Bude možné porovnávat vektory porovnávat:
+```python
+pol1 == pol2
+True
+```
+
+Polynomy bude možné sčítat a umocňovat nezápornými celými čísly:
+```python
+print(Polynomial(1,-3,0,2) + Polynomial(0, 2, 1))
+"2x^3 + x^2 - x + 1"
+print(Polynomial(-1, 1) ** 2)
+"x^2 - 2x  + 1"
+```
