@@ -17,13 +17,18 @@ class Polynomial():
             else:
                 self.args = list(args)
         elif len(kwargs.values()) > 0: # if the argument is a dictionary
-            # find max index
-            max_index = list(sorted(kwargs.keys())[-1]).pop()
+
+            keys = list(kwargs.keys())
+            
+            #finds max key
+            max_key = max([int(key[1:]) for key in keys])
+
             # array init with max index + 1
-            self.args = [0]*(int(max_index)+1)
+            self.args = [0]*(max_key+1)
+
             # assign values to the list
-            for key in sorted(kwargs.keys()):
-                self.args[int(list(key).pop())] = kwargs[key]
+            for key in keys:
+                self.args[int(key[1:])] = kwargs[key]
         else:
             self.args = [0]
 
@@ -97,11 +102,13 @@ class Polynomial():
         new = []
 
         # fins smaller polynom
-        min_len = min(len(new),len(target.args))
+        min_len = min(len(self.args),len(target.args))
+
         # adds up elements of the polynoms [small first]
-        res = [new[index] + target.args[index] for index in range(min_len)]
+        new = [self.args[index] + target.args[index] for index in range(min_len)]
+
         # copies the rest
-        new = [*res, *new[min_len:]] if len(new) > len(target.args) else [*res, *target.args[min_len:]]
+        new = [*new, *self.args[min_len:]] if len(self.args) > len(target.args) else [*new, *target.args[min_len:]]
 
         return Polynomial(new)
 
@@ -147,7 +154,7 @@ class Polynomial():
         x2 - number (optional)
         return value is a number
         """
-        def solve_polynom(polynom,x):
+        def solve_polynom(polynom,x_var):
             """
             Calculates the result of polynom,
             Arguments:
@@ -155,8 +162,6 @@ class Polynomial():
             return value is a number
             Example: x^2 + 2x + 1 and x = 1 => 4
             """
-            return sum(polynom[index] * (x**index) for index in range(len(polynom)))
+            return sum(polynom[index] * (x_var**index) for index in range(len(polynom)))
 
         return solve_polynom(self.args,x_1) if x_2 is None else solve_polynom(self.args,x_2) - solve_polynom(self.args,x_1)
-
-print(Polynomial(1,2,-3))
