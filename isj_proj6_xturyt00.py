@@ -12,11 +12,11 @@ class Polynomial():
         """
         # if the argument is an array
         if len(args) > 0:
-            if type(args[0]) != list:
-                self.args = list(args[:])
+            if isinstance(args[0],list):
+                self.args = args[0]
             else:
-                self.args = args[0][:]
-        else: # if the argument is a dictionary
+                self.args = list(args)
+        elif len(kwargs.values()) > 0: # if the argument is a dictionary
             # find max index
             max_index = list(sorted(kwargs.keys())[-1]).pop()
             # array init with max index + 1
@@ -24,7 +24,9 @@ class Polynomial():
             # assign values to the list
             for key in sorted(kwargs.keys()):
                 self.args[int(list(key).pop())] = kwargs[key]
-        
+        else:
+            self.args = [0]
+
         #removes all the 0 at the end
         while len(self.args) > 0:
             if self.args[-1] == 0:
@@ -47,28 +49,33 @@ class Polynomial():
         if len(self.args) == 0:
             return '0' 
 
-        for i in range(len(self.args)):
+        for index in range(len(self.args)):
             # skips 0
-            if self.args[i] == 0:
+            if self.args[index] == 0:
                 continue
 
-            k=''
+            temp_val=''
             # removes "1x" 
-            if abs(self.args[i]) == 1:
-                k = '' if i > 0 else '1'
+            if abs(self.args[index]) == 1:
+                temp_val = '' if index > 0 else '1'
             else:
-                k = str(abs(self.args[i])) if abs(self.args[i]) != 1 else '1'
+                temp_val = str(abs(self.args[index])) if abs(self.args[index]) != 1 else '1'
 
             # adds X to a coefficient
-            if i == 0:
-                res = k 
-            elif i == 1:
-                res = k + 'x' + res 
+            if index == 0:
+                res = temp_val 
+            elif index == 1:
+                res = temp_val + 'x' + res 
             else:
-                res = k + f'x^{i}' + res 
+                res = temp_val + f'x^{index}' + res 
             # places signs
-            if len(self.args) - 1 != i:
-                res = (' + ' if self.args[i] > 0 else ' - ') + res
+            if len(self.args) - 1 != index:
+                res = (' + ' if self.args[index] > 0 else ' - ') + res
+            else:
+                if self.args[index] < 0:
+                    res = '- ' + res
+                    
+
         return res
 
     # compares polynoms
@@ -87,47 +94,35 @@ class Polynomial():
         Example: (2x + 1) + (x - 1)
         """
 
-        new = Polynomial(self.args)
+        new = []
 
         # fins smaller polynom
-        min_len = min(len(new.args),len(target.args))
+        min_len = min(len(new),len(target.args))
         # adds up elements of the polynoms [small first]
-        res = [new.args[index] + target.args[index] for index in range(min_len)]
+        res = [new[index] + target.args[index] for index in range(min_len)]
         # copies the rest
-        new.args = [*res, *new.args[min_len:]] if len(new.args) > len(target.args) else [*res, *target.args[min_len:]]
+        new = [*res, *new[min_len:]] if len(new) > len(target.args) else [*res, *target.args[min_len:]]
 
-        return new
+        return Polynomial(new)
 
-    def __pow__(self,n):
+    def __pow__(self,pow_size):
         """
-        Raises a polynomial to a power (newton binomial)
-        Parameters:
-        n - number (pow)
-        return value is new Polynomial object with the result
-        Example: (x + 1)^2 => x^2 + 2x + 1
+        Powers polynom by n
+        return value is a Polynomial object with the result
+        Example: (2x + 1)^2 => 4x^2 + 4x + 1
         """
-        # return object
-        new = Polynomial([])
-
-        def binomialCoeff(n, k):
-            """
-            Calculates coefficient for each position in a polynom of pow of n
-            n - pow
-            k - coefficient position
-            return value is a number
-            """
-            if k > n:
-                return 0
-            if k == 0 or k == n:
-                return 1
- 
-            return binomialCoeff(n - 1, k - 1) + binomialCoeff(n - 1, k)
-        # calculates pow for each element of the polynom
-        for index in range(n+1):
-            new.args.append(binomialCoeff(n,index)*(self.args[0]**(n-index))*(self.args[1]**index))
         
+        def to_pow(args,pow_size):
+            new_args = [0]* len(args) * 2
+            old_args = [*self.args,*[0]*(len(new_args)-len(self.args))]
+            if pow_size == 1:
+                return args
+            for index_mul in range(len(args)):
+                for index in range(len(args)):
+                    new_args[index+index_mul] += old_args[index] * args[index_mul]
+            return to_pow(new_args,pow_size-1)
 
-        return new
+        return Polynomial(to_pow(self.args,pow_size))
 
     def derivative(self):
         """
@@ -136,14 +131,14 @@ class Polynomial():
         Example: x^2 + 2x + 1 => "2x + 2"
         """
         # return object
-        new = Polynomial([])
+        new = []
         # shifts array to the left by 1 to remove first item
         for index in range(len(self.args)):
             if index > 0:
-                new.args.append(self.args[index]*index) # derivates
-        return new
+                new.append(self.args[index]*index) # derivates
+        return Polynomial(new)
     
-    def at_value(self, x1, x2 = None):
+    def at_value(self, x_1, x_2 = None):
         """
         Calculates the result of polynom with x = x1,
         or calculates delta X = f(x2) - f(x1)
@@ -162,5 +157,6 @@ class Polynomial():
             """
             return sum(polynom[index] * (x**index) for index in range(len(polynom)))
 
-        return solve_polynom(self.args,x1) if x2 is None else solve_polynom(self.args,x2) - solve_polynom(self.args,x1)
+        return solve_polynom(self.args,x_1) if x_2 is None else solve_polynom(self.args,x_2) - solve_polynom(self.args,x_1)
 
+print(Polynomial(1,2,-3))
