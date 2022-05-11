@@ -200,3 +200,14 @@ called f2 with (5,) and {}
 called f3 with (5,) and {}
 called f3 with (5, 4) and {}
 ```
+
+## Project #8
+
+Do souboru, nazvaného podle konvence isj_proj8_xnovak00.py, definujte generátorovou funkci first_with_given_key, která bude mít 2 parametry - povinný parametr iterable, odpovídající předanému iterovatelnému objektu (může být i nekonečný), a dále nepovinný parametr key, odpovídající funkci, která při volání na položce objektu iterable vrátí hodnotu klíče, s defaultní hodnotou identické funkce (tedy vrácení přímo položky, na které je funkce zavolána), implementované pomocí konstrukce lambda. Funkce aplikuje klíč na položky objektu iterable a vybírá (generuje) pouze ty, jejichž klíč se dosud nevyskytl. V případě potřeby pamatovat si nehashovatelné objekty použijte funkci repr.
+Například:
+
+```python
+print(tuple(first_with_given_key([[1],[2,3],[4],[5,6,7],[8,9]], key = len)))
+
+([1], [2, 3], [5, 6, 7])
+```
