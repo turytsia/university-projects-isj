@@ -7,10 +7,10 @@ Learn more about python course at VUT **[here](https://www.fit.vut.cz/study/cour
 | 2 | 5/5 |
 | 3 | 5/5 |
 | 4 | 5/5 |
-| 5 | -/5 |
-| 6 | -/5 |
-| 7 | -/5 |
-| 8 | -/5 |
+| 5 | 5/5 |
+| 6 | 5/5 |
+| 7 | 5/5 |
+| 8 | 5/5 |
 
 ## Project #1
 Write a function that converts camelCase to a snake_case with regex
